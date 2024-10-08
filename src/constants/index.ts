@@ -37,6 +37,7 @@ import {
   Atadel,
   apple,
   playstore,
+  Ingaz,
 } from "../assets";
 
 export const navLinks: TNavLink[] = [
@@ -123,11 +124,23 @@ const technologies: TTechnology[] = [
 
 const experiences: TExperience[] = [
   {
+    title: "Mid FLutter Developer",
+    companyName: "INGAZ",
+    icon: Ingaz,
+    iconBg: "#FFFFFF",
+    date: "April 2024 - present",
+    points: [
+      "added of In app purchase , Store functionality include handling purchases, most of Groups functionality, fixing bugs and performance issues (main role) and integrated UI designs in an entertainment FootBall App",
+      "Participated in developing ERP mobile application for Transfering money, which I was responsible for receiving, filtering and delivering the data for both Frontend Team and Backend team as the application has local storage 	and update the server when there is connection available",
+      "Participated in facial recognition app and enhanced the system to detect fake user by adding a liveness AI detector",
+    ],
+  },
+  {
     title: "FreeLance Developer",
     companyName: "BOT",
     icon: Bot,
     iconBg: "#383E56",
-    date: "March 2023 - present",
+    date: "March 2023 – April 2024",
     points: [
       "added of In app purchase , Store functionality include handling purchases, most of Groups functionality, fixing bugs and performance issues (main role) and integrated UI designs in an entertainment FootBall App",
       "Participated in developing ERP mobile application for Transfering money, which I was responsible for receiving, filtering and delivering the data for both Frontend Team and Backend team as the application has local storage 	and update the server when there is connection available",

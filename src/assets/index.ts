@@ -25,6 +25,7 @@ import typescript from "./tech/typescript.png";
 import threejs from "./tech/threejs.svg";
 
 import atadel from "./company/atadel.png";
+import Ingaz from "./company/Ingaz.jpg";
 import airdefence from "./company/air_defence_college.png";
 import shopify from "./company/shopify.png";
 import starbucks from "./company/starbucks.png";
@@ -77,6 +78,7 @@ export {
   kafey_rep,
   Face_Auth,
   Atadel,
+  Ingaz,
   jobit,
   tripguide,
 };
