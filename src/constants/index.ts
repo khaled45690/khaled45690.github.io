@@ -130,9 +130,11 @@ const experiences: TExperience[] = [
     iconBg: "#FFFFFF",
     date: "April 2024 - present",
     points: [
-      "added of In app purchase , Store functionality include handling purchases, most of Groups functionality, fixing bugs and performance issues (main role) and integrated UI designs in an entertainment FootBall App",
-      "Participated in developing ERP mobile application for Transfering money, which I was responsible for receiving, filtering and delivering the data for both Frontend Team and Backend team as the application has local storage 	and update the server when there is connection available",
-      "Participated in facial recognition app and enhanced the system to detect fake user by adding a liveness AI detector",
+      "Working on improving and enhancing legacy full HR system app in flutter with the required migrations to work on latest flutter and android version",
+      "Got a chance to collaborate with proficient team and have a deep understanding of bloc to maximize code readability and screen control using bloc states and events",
+      "have a deep understanding of most of state managements and their pros and cons with actual project experience",
+      "the ability to work on any project , refactor it and add more features without disrupting coding standards",
+
     ],
   },
   {
