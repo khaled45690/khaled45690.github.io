@@ -8,9 +8,7 @@ import type {
 } from "../types";
 
 import {
-  mobile,
   backend,
-  creator,
   flutter,
   web,
   javascript,
@@ -18,12 +16,9 @@ import {
   html,
   css,
   reactjs,
-  redux,
-  tailwind,
   nodejs,
   mongodb,
   git,
-  figma,
   docker,
   atadel,
   airdefence,
