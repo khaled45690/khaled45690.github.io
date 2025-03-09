@@ -123,7 +123,7 @@ const experiences: TExperience[] = [
     companyName: "INGAZ",
     icon: Ingaz,
     iconBg: "#FFFFFF",
-    date: "April 2024 - present",
+    date: "April 2024 - February 2025",
     points: [
       "Working on improving and enhancing legacy full HR system app in flutter with the required migrations to work on latest flutter and android version",
       "Got a chance to collaborate with proficient team and have a deep understanding of bloc to maximize code readability and screen control using bloc states and events",
