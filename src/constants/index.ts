@@ -33,6 +33,7 @@ import {
   apple,
   playstore,
   Ingaz,
+  digi
 } from "../assets";
 
 export const navLinks: TNavLink[] = [
@@ -118,6 +119,21 @@ const technologies: TTechnology[] = [
 ];
 
 const experiences: TExperience[] = [
+  {
+    title: "Senior FLutter Developer",
+    companyName: "DIGI",
+    icon: digi,
+    iconBg: "#FFFFFF",
+    date: "February 2025 - April 2025",
+    points: [
+      "Designed and implemented a modern mobile banking architecture using Flutter framework",
+      "Implemented separation of concerns with organized project structure and secure authentication flows",
+      "Utilized clean architecture principles for maintainable and scalable code structure",
+      "Developed intuitive form components with custom validation and error handling with organized project structure",
+      "Utilized extension methods for enhanced functionality",
+      "Followed Flutter/Dart coding standards and conventions",
+    ],
+  },
   {
     title: "Mid FLutter Developer",
     companyName: "INGAZ",
@@ -214,25 +230,7 @@ const testimonials: TTestimonial[] = [
 ];
 
 const projects: TProject[] = [
-  {
-    name: "FEL",
-    description:
-      "Football Prediction League is a game to earn points by predicting the results of your favorite league matches",
-    tags: [
-      {
-        name: "flutter",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "Firebase",
-        color: "green-text-gradient",
-      },
-    ],
-    image: Fel,
-    sourceCodeLink: "https://github.com/",
-    AppleStore: "https://apps.apple.com/us/app/fel-league/id6464472764",
-    PlayStore: "https://play.google.com/store/apps/details?id=com.felapp.sports.football_appnew&hl=en",
-  },
+ 
   {
     name: "Kafey Rep",
     description:

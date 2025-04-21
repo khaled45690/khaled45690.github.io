@@ -35,6 +35,7 @@ import Face_Auth from "./projects/Face_Auth.png";
 import Atadel from "./projects/atadel.png";
 import jobit from "./jobit.png";
 import tripguide from "./tripguide.png";
+import digi from "./digi.png";
 
 export {
   logo,
@@ -63,6 +64,7 @@ export {
   starbucks,
   tesla,
   Bot,
+  digi,
   carrent,
   Fel,
   kafey_rep,
