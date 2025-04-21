@@ -27,7 +27,7 @@ import {
 
   Face_Auth,
 
-  Fel,
+
   kafey_rep,
   Atadel,
   apple,
