@@ -1,15 +1,1104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/assets/logo-a4VnBUdt.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Khaled Saad Portfolio</title>
-    <script type="module" crossorigin src="/assets/index-iYk7vpEb.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-GNyRg50Y.css">
-    <meta name="google-site-verification" content="N0hGE3iO7NIYwJFZpgiGS_6eW3-NbnVTZugZdXDUS1E" />
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Khaled Saad — On-Device Computer Vision Engineer</title>
+        <meta
+            name="description"
+            content="Mobile AI / on-device computer vision engineer. C++ image pipelines, INT8 models, Flutter delivery — from camera frame to recognized text, all on the device."
+        />
+
+        <!-- ============================================================
+   FONTS
+============================================================ -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            /* ============================================================
+   TOKENS
+============================================================ */
+            :root {
+                --bg: #0b0e13;
+                --bg-2: #12161f;
+                --bg-3: #191f2a;
+                --line: rgba(255, 255, 255, 0.09);
+                --line-2: rgba(255, 255, 255, 0.16);
+                --ink: #e7eaf0;
+                --dim: #878f9e;
+                --dim-2: #5b6373;
+                --amber: #eab04d;
+                --amber-soft: rgba(234, 176, 77, 0.13);
+                --live: #46d17f;
+
+                --display: "Space Grotesk", system-ui, sans-serif;
+                --body: "IBM Plex Sans", system-ui, sans-serif;
+                --mono: "IBM Plex Mono", ui-monospace, monospace;
+
+                --maxw: 1080px;
+                --gut: clamp(20px, 5vw, 64px);
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                background: var(--bg);
+                color: var(--ink);
+                font-family: var(--body);
+                font-size: 16px;
+                line-height: 1.6;
+                -webkit-font-smoothing: antialiased;
+                overflow-x: hidden;
+            }
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+            img,
+            video {
+                display: block;
+                max-width: 100%;
+            }
+
+            /* subtle grid texture on the page */
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image:
+                    linear-gradient(
+                        rgba(255, 255, 255, 0.018) 1px,
+                        transparent 1px
+                    ),
+                    linear-gradient(
+                        90deg,
+                        rgba(255, 255, 255, 0.018) 1px,
+                        transparent 1px
+                    );
+                background-size: 44px 44px;
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            .wrap {
+                max-width: var(--maxw);
+                margin: 0 auto;
+                padding-left: var(--gut);
+                padding-right: var(--gut);
+                position: relative;
+                z-index: 1;
+            }
+
+            /* shared utility text styles */
+            .eyebrow {
+                font-family: var(--mono);
+                font-size: 12px;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--amber);
+            }
+            .label {
+                font-family: var(--mono);
+                font-size: 12px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--dim);
+            }
+
+            /* ============================================================
+   TOP BAR
+============================================================ */
+            .topbar {
+                position: sticky;
+                top: 0;
+                z-index: 50;
+                backdrop-filter: blur(10px);
+                background: rgba(11, 14, 19, 0.72);
+                border-bottom: 1px solid var(--line);
+            }
+            .topbar .row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 60px;
+            }
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                font-family: var(--mono);
+                font-size: 13px;
+                letter-spacing: 0.04em;
+            }
+            .brand .mono-mark {
+                display: grid;
+                place-items: center;
+                width: 30px;
+                height: 30px;
+                border: 1px solid var(--line-2);
+                border-radius: 6px;
+                font-family: var(--display);
+                font-weight: 700;
+                font-size: 14px;
+                color: var(--amber);
+            }
+            .brand b {
+                font-weight: 500;
+                color: var(--ink);
+            }
+            .brand span {
+                color: var(--dim-2);
+            }
+            .navlinks {
+                display: flex;
+                gap: 22px;
+                font-family: var(--mono);
+                font-size: 12.5px;
+            }
+            .navlinks a {
+                color: var(--dim);
+                transition: color 0.18s;
+            }
+            .navlinks a:hover {
+                color: var(--ink);
+            }
+            @media (max-width: 640px) {
+                .navlinks {
+                    display: none;
+                }
+            }
+
+            /* ============================================================
+   HERO
+============================================================ */
+            .hero {
+                padding: clamp(48px, 9vw, 96px) 0 clamp(40px, 7vw, 72px);
+            }
+            .hero h1 {
+                font-family: var(--display);
+                font-weight: 700;
+                font-size: clamp(34px, 6.4vw, 62px);
+                line-height: 1.03;
+                letter-spacing: -0.02em;
+                margin: 18px 0 0;
+                max-width: 16ch;
+            }
+            .hero h1 .hl {
+                color: var(--amber);
+            }
+            .hero .sub {
+                margin-top: 22px;
+                max-width: 54ch;
+                font-size: clamp(15px, 2vw, 18px);
+                color: var(--dim);
+            }
+            .hero .sub b {
+                color: var(--ink);
+                font-weight: 500;
+            }
+
+            /* viewfinder demo frame */
+            .scope {
+                margin-top: clamp(32px, 5vw, 48px);
+                position: relative;
+                border: 1px solid var(--line);
+                background: var(--bg-2);
+                border-radius: 10px;
+                padding: 14px;
+            }
+            .scope .frame {
+                position: relative;
+                border-radius: 6px;
+                overflow: hidden;
+                background: radial-gradient(
+                    120% 100% at 50% 0%,
+                    #10151d 0%,
+                    #0a0d12 100%
+                );
+                aspect-ratio: 16/9;
+                display: grid;
+                place-items: center;
+            }
+            .scope video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            /* placeholder shown until a video file is present */
+            .ph {
+                text-align: center;
+                padding: 24px;
+                color: var(--dim-2);
+                font-family: var(--mono);
+                font-size: 13px;
+                line-height: 1.7;
+            }
+            .ph .scan {
+                width: 54px;
+                height: 54px;
+                margin: 0 auto 16px;
+                border-radius: 8px;
+                border: 1px solid var(--line-2);
+                position: relative;
+                overflow: hidden;
+            }
+            .ph .scan::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                height: 2px;
+                top: 0;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--amber),
+                    transparent
+                );
+                animation: scan 2.4s ease-in-out infinite;
+            }
+            @keyframes scan {
+                0% {
+                    top: 6%;
+                }
+                50% {
+                    top: 90%;
+                }
+                100% {
+                    top: 6%;
+                }
+            }
+            .ph code {
+                color: var(--amber);
+            }
+
+            /* corner brackets */
+            .brk {
+                position: absolute;
+                width: 18px;
+                height: 18px;
+                border: 2px solid var(--amber);
+                pointer-events: none;
+                opacity: 0.9;
+            }
+            .brk.tl {
+                top: 8px;
+                left: 8px;
+                border-right: 0;
+                border-bottom: 0;
+            }
+            .brk.tr {
+                top: 8px;
+                right: 8px;
+                border-left: 0;
+                border-bottom: 0;
+            }
+            .brk.bl {
+                bottom: 8px;
+                left: 8px;
+                border-right: 0;
+                border-top: 0;
+            }
+            .brk.br {
+                bottom: 8px;
+                right: 8px;
+                border-left: 0;
+                border-top: 0;
+            }
+
+            /* metric chips */
+            .chips {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 14px;
+            }
+            .chip {
+                font-family: var(--mono);
+                font-size: 12px;
+                color: var(--ink);
+                background: var(--bg-3);
+                border: 1px solid var(--line);
+                border-radius: 999px;
+                padding: 6px 12px;
+            }
+            .chip b {
+                color: var(--amber);
+                font-weight: 500;
+            }
+
+            .cta-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+                margin-top: 30px;
+            }
+            .btn {
+                font-family: var(--mono);
+                font-size: 13px;
+                letter-spacing: 0.02em;
+                padding: 12px 20px;
+                border-radius: 8px;
+                transition: 0.18s;
+                border: 1px solid var(--line-2);
+            }
+            .btn.primary {
+                background: var(--amber);
+                color: #15110a;
+                border-color: var(--amber);
+                font-weight: 500;
+            }
+            .btn.primary:hover {
+                filter: brightness(1.08);
+            }
+            .btn.ghost:hover {
+                border-color: var(--ink);
+                color: #fff;
+            }
+
+            /* ============================================================
+   SECTION SCAFFOLD
+============================================================ */
+            .block {
+                padding: clamp(48px, 8vw, 86px) 0;
+                border-top: 1px solid var(--line);
+            }
+            .block-head {
+                margin-bottom: clamp(26px, 4vw, 40px);
+            }
+            .block-head h2 {
+                font-family: var(--display);
+                font-weight: 600;
+                font-size: clamp(24px, 3.6vw, 34px);
+                letter-spacing: -0.01em;
+                margin-top: 12px;
+                max-width: 20ch;
+            }
+
+            /* ============================================================
+   THE EDGE  (spec rows)
+============================================================ */
+            .edge {
+                display: grid;
+                gap: 0;
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .edge .item {
+                display: grid;
+                grid-template-columns: 54px 1fr;
+                gap: 18px;
+                padding: 22px clamp(18px, 3vw, 28px);
+                border-bottom: 1px solid var(--line);
+            }
+            .edge .item:last-child {
+                border-bottom: 0;
+            }
+            .edge .num {
+                font-family: var(--mono);
+                color: var(--amber);
+                font-size: 13px;
+                padding-top: 4px;
+            }
+            .edge h3 {
+                font-family: var(--display);
+                font-weight: 600;
+                font-size: 18px;
+                letter-spacing: -0.01em;
+            }
+            .edge p {
+                color: var(--dim);
+                font-size: 15px;
+                margin-top: 6px;
+                max-width: 60ch;
+            }
+            .edge p .k {
+                color: var(--ink);
+                font-family: var(--mono);
+                font-size: 13.5px;
+            }
+
+            /* ============================================================
+   WORK  (case files)
+============================================================ */
+            .work {
+                display: grid;
+                gap: 18px;
+            }
+            .case {
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                background: var(--bg-2);
+                padding: clamp(20px, 3vw, 30px);
+                transition:
+                    border-color 0.2s,
+                    transform 0.2s;
+            }
+            .case:hover {
+                border-color: var(--line-2);
+                transform: translateY(-2px);
+            }
+            .case .top {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+            .case h3 {
+                font-family: var(--display);
+                font-weight: 600;
+                font-size: clamp(19px, 2.6vw, 23px);
+                letter-spacing: -0.01em;
+            }
+            .case .kind {
+                font-family: var(--mono);
+                font-size: 11.5px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--dim-2);
+                margin-bottom: 6px;
+            }
+            .status {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                font-family: var(--mono);
+                font-size: 11.5px;
+                color: var(--dim);
+                border: 1px solid var(--line);
+                border-radius: 999px;
+                padding: 5px 11px;
+                white-space: nowrap;
+            }
+            .status .dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: var(--live);
+                box-shadow: 0 0 0 3px rgba(70, 209, 127, 0.18);
+            }
+            .case p {
+                color: var(--dim);
+                font-size: 15px;
+                margin-top: 12px;
+                max-width: 68ch;
+            }
+            .tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 7px;
+                margin-top: 16px;
+            }
+            .tag {
+                font-family: var(--mono);
+                font-size: 11.5px;
+                color: var(--dim);
+                border: 1px solid var(--line);
+                border-radius: 5px;
+                padding: 4px 9px;
+            }
+            .case .links {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 18px;
+                margin-top: 18px;
+            }
+            .case .links a {
+                font-family: var(--mono);
+                font-size: 13px;
+                color: var(--amber);
+                border-bottom: 1px solid transparent;
+                transition: 0.18s;
+            }
+            .case .links a:hover {
+                border-bottom-color: var(--amber);
+            }
+            .case .links a::after {
+                content: " ↗";
+                color: var(--dim-2);
+            }
+
+            /* ============================================================
+   STACK
+============================================================ */
+            .stack {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1px;
+                background: var(--line);
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            @media (max-width: 640px) {
+                .stack {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .stack .cell {
+                background: var(--bg);
+                padding: 22px clamp(18px, 2.6vw, 26px);
+            }
+            .stack .cell h4 {
+                font-family: var(--mono);
+                font-size: 12px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--amber);
+                margin-bottom: 12px;
+            }
+            .stack .cell ul {
+                list-style: none;
+            }
+            .stack .cell li {
+                font-size: 14.5px;
+                color: var(--ink);
+                padding: 5px 0;
+                border-bottom: 1px dashed var(--line);
+            }
+            .stack .cell li:last-child {
+                border-bottom: 0;
+            }
+            .stack .cell li span {
+                color: var(--dim);
+                font-family: var(--mono);
+                font-size: 12.5px;
+            }
+
+            /* ============================================================
+   CONTACT
+============================================================ */
+            .contact {
+                padding: clamp(56px, 9vw, 104px) 0;
+                border-top: 1px solid var(--line);
+                text-align: center;
+            }
+            .contact h2 {
+                font-family: var(--display);
+                font-weight: 700;
+                font-size: clamp(28px, 5vw, 46px);
+                letter-spacing: -0.02em;
+                max-width: 18ch;
+                margin: 14px auto 0;
+            }
+            .contact p {
+                color: var(--dim);
+                margin: 18px auto 0;
+                max-width: 46ch;
+            }
+            .contact .links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 14px;
+                margin-top: 32px;
+            }
+
+            footer {
+                border-top: 1px solid var(--line);
+                padding: 26px 0;
+            }
+            footer .row {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 10px;
+                font-family: var(--mono);
+                font-size: 12px;
+                color: var(--dim-2);
+            }
+
+            /* ============================================================
+   MOTION / REVEAL
+============================================================ */
+            .reveal {
+                opacity: 0;
+                transform: translateY(14px);
+                transition:
+                    opacity 0.7s ease,
+                    transform 0.7s ease;
+            }
+            .reveal.in {
+                opacity: 1;
+                transform: none;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .reveal {
+                    opacity: 1;
+                    transform: none;
+                    transition: none;
+                }
+                .ph .scan::after {
+                    animation: none;
+                }
+                html {
+                    scroll-behavior: auto;
+                }
+            }
+            :focus-visible {
+                outline: 2px solid var(--amber);
+                outline-offset: 3px;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- ============================ TOP BAR ============================ -->
+        <header class="topbar">
+            <div class="wrap row">
+                <a class="brand" href="#top">
+                    <span class="mono-mark">KS</span>
+                    <span>// <b>Khaled&nbsp;Saad</b> · on-device&nbsp;CV</span>
+                </a>
+                <nav class="navlinks">
+                    <a href="#edge">edge</a>
+                    <a href="#work">work</a>
+                    <a href="#stack">stack</a>
+                    <a href="#contact">contact</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ============================ HERO ============================ -->
+        <main id="top">
+            <section class="hero">
+                <div class="wrap">
+                    <p class="eyebrow reveal">
+                        Mobile AI · On-Device Computer Vision
+                    </p>
+                    <h1 class="reveal">
+                        Computer vision that runs
+                        <span class="hl">on the device</span> — fast, offline,
+                        private.
+                    </h1>
+                    <p class="sub reveal">
+                        I build the whole pipeline:
+                        <b>C++ image processing</b> on the camera frame, an
+                        <b>INT8 model</b> that fits in kilobytes, and the
+                        <b>Flutter app</b> around it. One engineer, from raw
+                        sensor data to recognized text — no server in the loop.
+                    </p>
+
+                    <!-- ===== VIEWFINDER DEMO ===== -->
+                    <!--  ▼▼▼  DROP YOUR OCR DEMO VIDEO HERE  ▼▼▼
+          1. Name your video file:  ocr-demo.mp4
+          2. (optional) a poster image:  ocr-poster.jpg
+          3. Put both in the SAME folder as this index.html
+          The placeholder below disappears automatically once the file loads. -->
+                    <div
+                        class="scope reveal"
+                        aria-label="On-device Arabic OCR demo"
+                    >
+                        <div class="frame">
+                            <span class="brk tl"></span
+                            ><span class="brk tr"></span>
+                            <span class="brk bl"></span
+                            ><span class="brk br"></span>
+
+                            <video
+                                id="demo"
+                                muted
+                                loop
+                                playsinline
+                                preload="metadata"
+                                poster="ocr-poster.jpg"
+                                onloadeddata="
+                                    document.getElementById(
+                                        'demoPh',
+                                    ).style.display = 'none';
+                                    this.play();
+                                "
+                            >
+                                <source src="ocr-demo.mp4" type="video/mp4" />
+                            </video>
+
+                            <div class="ph" id="demoPh">
+                                <div class="scan"></div>
+                                Demo loads here.<br />
+                                Drop <code>ocr-demo.mp4</code> next to this
+                                file.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chips reveal">
+                        <span class="chip"><b>~12 ms</b> per frame</span>
+                        <span class="chip"><b>INT8</b> quantized</span>
+                        <span class="chip"><b>0</b> network calls</span>
+                        <span class="chip">runs on <b>NPU / GPU</b></span>
+                        <span class="chip">Arabic + Latin</span>
+                    </div>
+
+                    <div class="cta-row reveal">
+                        <a class="btn primary" href="#work">See the work</a>
+                        <a class="btn ghost" href="cv.pdf" download
+                            >Download CV</a
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================ THE EDGE ============================ -->
+            <section class="block" id="edge">
+                <div class="wrap">
+                    <div class="block-head reveal">
+                        <p class="eyebrow">Why this is rare</p>
+                        <h2>
+                            Most engineers do one slice of this. I do the whole
+                            line.
+                        </h2>
+                    </div>
+
+                    <div class="edge reveal">
+                        <div class="item">
+                            <div class="num">01</div>
+                            <div>
+                                <h3>The full on-device line</h3>
+                                <p>
+                                    From the camera frame to recognized text on
+                                    one phone: a
+                                    <span class="k">C++ NDK</span> image
+                                    pipeline, a quantized model running through
+                                    <span class="k">LiteRT / TFLite</span>, and
+                                    the production
+                                    <span class="k">Flutter</span> app shipping
+                                    it. People who can do all three are
+                                    uncommon.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="num">02</div>
+                            <div>
+                                <h3>Built for hard constraints</h3>
+                                <p>
+                                    Mobile is a harsher environment than the
+                                    server: a fixed power budget, no GPU farm,
+                                    milliseconds that matter. I work in
+                                    <span class="k">INT8</span>, delegate to the
+                                    <span class="k">NPU</span>, and squeeze
+                                    accuracy out of models small enough to ship.
+                                    That discipline transfers straight to edge
+                                    and embedded work.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="num">03</div>
+                            <div>
+                                <h3>Real document-AI depth</h3>
+                                <p>
+                                    I've built OCR for Arabic identity documents
+                                    end to end — mixed right-to-left text,
+                                    dates, ID numbers — the exact problem space
+                                    of <span class="k">KYC</span>, identity
+                                    verification, and scanning products. Native
+                                    Arabic, on top of the engineering.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================ WORK ============================ -->
+            <section class="block" id="work">
+                <div class="wrap">
+                    <div class="block-head reveal">
+                        <p class="eyebrow">Selected work</p>
+                        <h2>Shipped things, not slideware.</h2>
+                    </div>
+
+                    <div class="work">
+                        <article class="case reveal">
+                            <div class="top">
+                                <div>
+                                    <p class="kind">On-device OCR engine</p>
+                                    <h3>Arabic ID Recognition</h3>
+                                </div>
+                                <span class="status"
+                                    >in production · internal</span
+                                >
+                            </div>
+                            <p>
+                                A recognition engine for Arabic identity
+                                documents. Custom depthwise-separable CNN with a
+                                dual-head CTC decoder — one head for mixed
+                                Arabic text (names, addresses, RTL), one for
+                                pure numbers (dates, IDs) — quantized to INT8
+                                and run fully on-device through LiteRT. The C++
+                                pipeline handles colour conversion and
+                                preprocessing before a single frame ever reaches
+                                the model.
+                            </p>
+                            <div class="tags">
+                                <span class="tag">C++ NDK</span
+                                ><span class="tag">LiteRT / TFLite</span
+                                ><span class="tag">INT8</span
+                                ><span class="tag">CTC</span
+                                ><span class="tag">OpenCV</span>
+                            </div>
+                        </article>
+
+                        <article class="case reveal">
+                            <div class="top">
+                                <div>
+                                    <p class="kind">Mobile app · live</p>
+                                    <h3>Face Auth</h3>
+                                </div>
+                                <span class="status"
+                                    ><span class="dot"></span>Live on Google
+                                    Play</span
+                                >
+                            </div>
+                            <p>
+                                On-device face authentication built for business
+                                use. Camera capture, face processing, and full
+                                Flutter delivery on both Android and iOS —
+                                shipped through real store review and running on
+                                users' devices. The iOS build is distributed
+                                B2B, viewable on an iPhone or Mac.
+                            </p>
+                            <div class="tags">
+                                <span class="tag">Flutter</span
+                                ><span class="tag">Android · iOS</span
+                                ><span class="tag">On-device ML</span
+                                ><span class="tag">Camera</span>
+                            </div>
+                            <div class="links">
+                                <a
+                                    href="https://play.google.com/store/apps/details?id=com.Bot.face_auth"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >View on Google Play</a
+                                >
+                            </div>
+                        </article>
+
+                        <article class="case reveal">
+                            <div class="top">
+                                <div>
+                                    <p class="kind">Open-source · GitHub</p>
+                                    <h3>flutter_clean_core</h3>
+                                </div>
+                                <span class="status"
+                                    ><span class="dot"></span>On GitHub</span
+                                >
+                            </div>
+                            <p>
+                                A zero-dependency Flutter architecture core: a
+                                sealed <code>Result&lt;T&gt;</code> type for
+                                error handling and a Controller-as-State
+                                pattern, with 20+ tests. Built after the GetX
+                                maintenance gap left a hole for a small,
+                                dependable state layer.
+                            </p>
+                            <div class="tags">
+                                <span class="tag">Dart</span
+                                ><span class="tag">Flutter</span
+                                ><span class="tag">Zero-dep</span
+                                ><span class="tag">Tested</span>
+                            </div>
+                            <div class="links">
+                                <a
+                                    href="https://github.com/khaled45690/arch_demo"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >View on GitHub</a
+                                >
+                            </div>
+                        </article>
+
+                        <article class="case reveal">
+                            <div class="top">
+                                <div>
+                                    <p class="kind">
+                                        Open-source package · pub.dev
+                                    </p>
+                                    <h3>yuv_to_png</h3>
+                                </div>
+                                <span class="status"
+                                    ><span class="dot"></span>Published</span
+                                >
+                            </div>
+                            <p>
+                                Fast YUV→PNG conversion for camera and on-device
+                                vision pipelines — the kind of low-level frame
+                                plumbing every real-time camera feature needs
+                                and most projects re-write badly.
+                            </p>
+                            <div class="tags">
+                                <span class="tag">Dart</span
+                                ><span class="tag">Image pipeline</span
+                                ><span class="tag">Camera</span>
+                            </div>
+                            <div class="links">
+                                <a
+                                    href="https://pub.dev/packages/yuv_to_png"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >View on pub.dev</a
+                                >
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================ STACK ============================ -->
+            <section class="block" id="stack">
+                <div class="wrap">
+                    <div class="block-head reveal">
+                        <p class="eyebrow">Toolkit</p>
+                        <h2>What I reach for.</h2>
+                    </div>
+
+                    <div class="stack reveal">
+                        <div class="cell">
+                            <h4>On-device ML</h4>
+                            <ul>
+                                <li>TFLite / LiteRT <span>— deploy</span></li>
+                                <li>
+                                    INT8 quantization <span>— optimize</span>
+                                </li>
+                                <li>
+                                    NPU / GPU delegation
+                                    <span>— accelerate</span>
+                                </li>
+                                <li>
+                                    CTC · CNN backbones <span>— design</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="cell">
+                            <h4>Vision & image pipelines</h4>
+                            <ul>
+                                <li>
+                                    C++ NDK
+                                    <span>— libyuv, libjpeg-turbo, libpng</span>
+                                </li>
+                                <li>
+                                    OpenGL ES
+                                    <span>— YUV→RGB, external textures</span>
+                                </li>
+                                <li>OpenCV <span>— preprocessing</span></li>
+                            </ul>
+                        </div>
+                        <div class="cell">
+                            <h4>Mobile delivery</h4>
+                            <ul>
+                                <li>
+                                    Flutter
+                                    <span>— iOS, Android, HarmonyOS</span>
+                                </li>
+                                <li>
+                                    Platform channels · FFI
+                                    <span>— native bridge</span>
+                                </li>
+                                <li>BLoC · Riverpod <span>— state</span></li>
+                                <li>
+                                    Clean architecture <span>— structure</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="cell">
+                            <h4>Languages</h4>
+                            <ul>
+                                <li>C++ · Dart · Python <span>— code</span></li>
+                                <li>Arabic <span>— native</span></li>
+                                <li>English <span>— fluent</span></li>
+                                <li>Russian <span>— learning</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================ CONTACT ============================ -->
+            <section class="contact" id="contact">
+                <div class="wrap">
+                    <p class="eyebrow reveal">Available now · remote</p>
+                    <h2 class="reveal">
+                        Hiring for camera, scanning, or edge-AI? Let's talk.
+                    </h2>
+                    <p class="reveal">
+                        Based in Alexandria, Egypt. Open to remote roles and
+                        contracts worldwide — especially in identity
+                        verification, document AI, and on-device vision.
+                    </p>
+                    <div class="links reveal">
+                        <!--  ▼ replace YOUR_EMAIL with your real contact email ▼ -->
+                        <a
+                            class="btn primary"
+                            href="mailto:khaled.saad.abbass@gmail.com"
+                            >Email me</a
+                        >
+                        <a
+                            class="btn ghost"
+                            href="https://www.linkedin.com/in/khaled-saad-3b94b817b"
+                            target="_blank"
+                            rel="noopener"
+                            >LinkedIn</a
+                        >
+                        <a
+                            class="btn ghost"
+                            href="https://github.com/khaled45690"
+                            target="_blank"
+                            rel="noopener"
+                            >GitHub</a
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                <div class="wrap row">
+                    <span>© 2026 Khaled Saad</span>
+                    <span>// built to run on-device</span>
+                </div>
+            </footer>
+        </main>
+
+        <script>
+            /* reveal on scroll (respects reduced motion via CSS) */
+            (function () {
+                var els = document.querySelectorAll(".reveal");
+                if (!("IntersectionObserver" in window)) {
+                    els.forEach(function (e) {
+                        e.classList.add("in");
+                    });
+                    return;
+                }
+                var io = new IntersectionObserver(
+                    function (entries) {
+                        entries.forEach(function (en) {
+                            if (en.isIntersecting) {
+                                en.target.classList.add("in");
+                                io.unobserve(en.target);
+                            }
+                        });
+                    },
+                    { threshold: 0.12 },
+                );
+                els.forEach(function (e) {
+                    io.observe(e);
+                });
+            })();
+        </script>
+    </body>
 </html>
